@@ -120,7 +120,6 @@ const issues: Issue[] = [
   },
 ];
 
-// Task 6
 function formatDate(date: Date | undefined): string {
   if (!date) return "";
   return date.toLocaleDateString("en-US", {
