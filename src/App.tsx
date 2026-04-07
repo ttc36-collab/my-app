@@ -17,16 +17,6 @@ type IssueRowProps = {
   issue: Issue;
 };
 
-// Task 6
-function formatDate(date: Date | undefined): string {
-  if (!date) return "";
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
 // IssueRow Component
 class IssueRow extends React.Component<IssueRowProps> {
   render() {
@@ -38,9 +28,9 @@ class IssueRow extends React.Component<IssueRowProps> {
         <td>{issue.owner}</td>
         <td>{formatDate(issue.created)}</td>          
         <td>{issue.effort}</td>
-        <td>{formatDate(issue.completionDate)}</td>   
+        <td>{formatDate(issue.completionDate)}</td>
         <td>{issue.title}</td>
-        <td>{issue.priority}</td>                     
+        <td>{issue.priority}</td>                    
       </tr>
     );
   }
@@ -129,6 +119,16 @@ const issues: Issue[] = [
     priority: "Low",     
   },
 ];
+
+// Task 6
+function formatDate(date: Date | undefined): string {
+  if (!date) return "";
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 // IssueList Component
 class IssueList extends React.Component {
