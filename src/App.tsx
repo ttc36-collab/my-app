@@ -203,7 +203,9 @@ class IssueAdd extends React.Component<IssueAddProps, IssueAddState> {
   }
 }
 
+// --------------------
 // IssueList
+// --------------------
 type IssueListState = {
   issues: Issue[];
 };
