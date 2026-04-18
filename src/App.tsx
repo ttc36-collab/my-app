@@ -136,8 +136,26 @@ class IssueAdd extends React.Component<IssueAddProps, IssueAddState> {
     this.setState({ [name]: value } as Pick<IssueAddState, keyof IssueAddState>);
   };
 
+  validate = (): boolean => {
+    if (!this.state.owner || this.state.owner.length < 3) {
+      alert("Owner must be at least 3 characters.");
+      return false;
+    }
+    if (!this.state.title || this.state.title.length < 5) {
+      alert("Title must be at least 5 characters.");
+      return false;
+    }
+    if (!this.state.effort || Number(this.state.effort) <= 0) {
+      alert("Effort must be a positive number.");
+      return false;
+    }
+    return true;
+  };
+
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!this.validate()) return;  // Stop if validation fails
+
     const newIssue: Issue = {
       id: 0,
       status: "Open",
@@ -151,19 +169,38 @@ class IssueAdd extends React.Component<IssueAddProps, IssueAddState> {
       priority: this.state.priority,
     };
     this.props.addIssue(newIssue);
+    this.setState({ owner: "", title: "", effort: "", completionDate: "", priority: "Low" });
   };
 
   render() {
+    const inputStyle: React.CSSProperties = {
+      margin: "4px",
+      padding: "6px",
+      border: "1px solid #ccc",
+      borderRadius: "4px",
+    };
+    const buttonStyle: React.CSSProperties = {
+      margin: "4px",
+      padding: "6px 12px",
+      backgroundColor: "#007bff",
+      color: "white",
+      border: "none",
+      borderRadius: "4px",
+      cursor: "pointer",
+    };
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input name="owner" placeholder="Owner" onChange={this.handleChange} />
-        <input name="title" placeholder="Title" onChange={this.handleChange} />
-        <input name="effort" placeholder="Effort" onChange={this.handleChange} />
-        <input name="completionDate" type="date" onChange={this.handleChange} />
-        <button type="submit">Add Issue</button>
-      </form>
+      <div style={{ padding: "16px", border: "1px solid #ddd", marginTop: "10px" }}>
+        <h3>Add New Issue</h3>
+        <form onSubmit={this.handleSubmit}>
+          <input name="owner" placeholder="Owner" value={this.state.owner} onChange={this.handleChange} style={inputStyle} />
+          <input name="title" placeholder="Title" value={this.state.title} onChange={this.handleChange} style={inputStyle} />
+          <input name="effort" placeholder="Effort" value={this.state.effort} onChange={this.handleChange} style={inputStyle} />
+          <input name="completionDate" type="date" value={this.state.completionDate} onChange={this.handleChange} style={inputStyle} />
+          <button type="submit" style={buttonStyle}>Add Issue</button>
+        </form>
+      </div>
     );
-}
+  }
 }
 
 // IssueList
